@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# a Bash script that displays lines containing the bash word
+# shellcheck disable=SC2009
+top=$(ps -ef | grep bash | grep -v grep | awk '{print $2}')
+grep bash <(ps -ef)
