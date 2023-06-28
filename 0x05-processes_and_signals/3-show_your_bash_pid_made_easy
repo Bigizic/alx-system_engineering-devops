@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 #  a Bash script that displays the PID, along with the process name
-pid_file="/tmp/bash_pid.txt"
-if [ -f "$pid_file" ]; then
-	pid=$(cat "$pid_file")
-else
-	pid=$(pgrep -f "bash .*3-show_your_bash_pid_made_easy" | grep -v $$)
-fi
-
+pid=$(pgrep -f "bash .*3-show_your_bash_pid_made_easy" | grep -v $$)
 echo $pid "bash"
 echo $$ "bash"
