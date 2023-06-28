@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-# a Bash script that displays a list of currently running processes
-top -b -n 1 > /tmp/process_list.txt
-cat /tmp/process_list.txt
-rm /tmp/process_list.txt
+top
