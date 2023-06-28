@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# a Bash script that stops 4-to_infinity_and_beyond process without kill
+file_name="4-to_infinity_and_beyond"
+pid=$(pgrep -f "$file_name")
+if [ -z "$pid" ]; then
+	echo "No process for: $file_name"
+else
+	kill -s SIGTERM "$pid"
+fi
