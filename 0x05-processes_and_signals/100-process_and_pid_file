@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# a Bash scrip that creates a file containing it's pid display a msg
+# indefinitely, display a msg when receiving a SIGTERM signal
+# display a msg when receiving a SIGINT signal, Deletes the file and
+# terminates it's self when receiving a SIGQUIT signal
+file_name="myscript.pid"
+
+handle_sigterm() {
+	echo "I hate the kill command"
+}
+
+handle_siginit() {
+	echo "Y U no love me?!"
+}
+
+handle_sigquit() {
+	echo "I hate the kill command"
+	sudo rm -f /var/run/$file_name
+	exit 0
+}
+
+trap 'handle_sigterm' SIGTERM
+trap 'handle_siginit' SIGINT
+trap 'handle_sigquit' SIGTERM SIGQUIT
+pid=$$
+echo "$pid" | sudo tee /var/run/$file_name > /dev/null
+
+while true; do
+	echo "To infinity and beyond"
+	sleep 1
+done
