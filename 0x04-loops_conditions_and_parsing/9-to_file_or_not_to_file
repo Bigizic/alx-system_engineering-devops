@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# a Bash script that gives you information about the school file
+# Your Bash script should check if the file exists and print:
+# if the file exists: school file exists
+# if the file does not exist: school file does not exist
+# If the file exists, print:
+# if the file is empty: school file is empty
+# if the file is not empty: school file is not empty
+# if the file is a regular file: school is a regular file
+# if the file is not a regular file: (nothing)
+
+file_name="school"
+found=false
+empty=true
+for files in *; do
+	if [[ $files == $file_name ]]; then
+		found=true
+		if [ $(wc -c < "$file_name") - gt 0 ]; then
+			empty=false
+		fi
+	fi
+
+done
+
+#if [[ $found == true ]]; then
+#	echo "school file exists"
+#else
+#	echo "school file does not exists"
+#fi
+
+if [[ $found == true ]]; then
+	echo "school file exists"
+
+	if [[ $empty == false ]]; then
+		echo "school file is not empty"
+	else
+		echo "school file is empty"
+	fi
+else
+	echo "school file does not exists"
+fi
