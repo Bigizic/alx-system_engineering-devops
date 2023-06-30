@@ -2,49 +2,34 @@
 # a bash (init) script that manages a file with start, stop and restart cmd
 file_name="my_process.pid"
 
-if [ $# -eq 0 ]; then
+if [ "$#" == 0 ]; then
 	echo "Usage: manage_my_process {start|stop|restart}"
 	exit 1
 fi
 
-func_start() {
-	"./manage_my_process" &
-	pid=$$
-	echo "$pid" | sudo tee /var/run/$file_name > /dev/null
-	echo "manage_my_process started"
-}
+if [[ "$#" == "1" ]]; then
+	if [[ "$1" == "start" ]]; then
+		./manage_my_process &
+		pid=$!
+		echo "$pid" > /var/run/$file_name
+		echo "manage_my_process started"
 
-func_stop() {
+	elif [[ "$1" == "stop" ]]; then
+		if test -f "/var/run/$file_name"; then
+			pid=$(cat /var/run/$file_name)
+			kill -s SIGSTOP $pid
+		fi
+		sudo rm -f "/var/run/$file_name"
+		echo "manage_my_process stopped"
 
-	pid=$(pgrep -f "manage_my_process")
-	kill "$pid"
-
-	sudo rm -f "/var/run/$file_name"
-	echo "manage_my_process stopped"
-}
-
-func_restart() {
-	if [ -f "/var/run/$file_name" ]; then
-		func_stop
+	elif [[ "$1" == "restart" ]]; then
+		if test -f "/var/run/$file_name"; then
+			pid=$(cat /var/run/$file_name)
+			kill -s SIGSTOP $pid
+		fi
+		./manage_my_process &
+		pid=$!
+		echo "$pid" > /var/run/$file_name
+		echo "manage_my_process restarted"
 	fi
-
-	func_start
-
-	echo "manage_my_process restarted"
-}
-
-case "$1" in
-	start)
-		func_start
-		;;
-	stop)
-		func_stop
-		;;
-	restart)
-		func_restart
-		;;
-	*)
-		echo "Usage: manage_my_process {start|stop|restart}"
-		exit 1
-		;;
-esac
+fi
