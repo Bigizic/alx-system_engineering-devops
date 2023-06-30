@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# a bash script that writes a msg indefinitly
+file_name="/tmp/my_process"
+while true; do
+	echo "I am alive!" >> $file_name
+	sleep 2
+done
