@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# a bash scrip that prints the ip adddress followed by http_code from an
+# apache-access log file without using while loops, for, until and cut
+
+file_path="./apache-access.log"
+ip=$(awk '{print $1}' "$file_path")
+http=$(awk '{print $9}' "$file_path")
+
+paste -d ' ' <(echo "$ip") <(echo "$http")
