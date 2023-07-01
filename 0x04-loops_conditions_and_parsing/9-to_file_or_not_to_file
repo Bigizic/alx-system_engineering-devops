@@ -9,33 +9,45 @@
 # if the file is a regular file: school is a regular file
 # if the file is not a regular file: (nothing)
 
-file_name="school"
-found=false
-empty=true
-for files in *; do
-	if [[ $files == $file_name ]]; then
-		found=true
-		if [ $(wc -c < "$file_name") - gt 0 ]; then
-			empty=false
+func_file_information() {
+	file_name="school"
+	existing=false
+	empty=true
+	regular=false
+
+	for files in *; do
+		if [[ $files == $file_name ]]; then
+			existing=true
+			if [ $(wc -c < "$file_name") -gt 0 ]; then
+				empty=false
+				if [ -f "$file_name" ]; then
+					regular=true
+				fi
+			fi
 		fi
-	fi
 
-done
+	done
 
-#if [[ $found == true ]]; then
-#	echo "school file exists"
-#else
-#	echo "school file does not exists"
-#fi
+	if [[ $existing == true ]]; then
+		echo "school file exists"
+		
+		if [[ $empty == false ]]; then
+			echo "school file is not empty"
+			regular=false
+			if test -d "$file_name"; then
+				regular=true
+			fi
+		
+		else
+			echo "school file is empty"
+		fi
 
-if [[ $found == true ]]; then
-	echo "school file exists"
-
-	if [[ $empty == false ]]; then
-		echo "school file is not empty"
+		if [[ $regular == false ]]; then
+			echo "$file_name is a regular file"
+		fi
 	else
-		echo "school file is empty"
+		echo "school file does not exists"
 	fi
-else
-	echo "school file does not exists"
-fi
+}
+
+func_file_information
