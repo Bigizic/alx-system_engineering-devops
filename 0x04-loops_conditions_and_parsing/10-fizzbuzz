@@ -6,10 +6,10 @@
 # Otherwise, displays the number
 
 func_fizz_buzz () {
-	count=20
+	count=100
 	zzif=3
 	zzub=5
-	for (( i=1 ; i<=$count ; i++ )); do
+	for (( i=1 ; i<=count ; i++ )); do
 
 		mul=$((zzif * zzub))
 
