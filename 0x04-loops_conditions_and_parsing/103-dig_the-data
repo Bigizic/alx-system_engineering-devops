@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# a bash script based on 102-lets_parse_apache_logs and adds the number of
+# occurence of an ip address
+
+file_path="./apache-access.log"
+ip=$(awk '{print $1}' "$file_path")
+http=$(awk '{print $9}' "$file_path")
+
+paste -d ' ' <(echo "$ip") <(echo "$http") |
+	sort |
+	uniq -c |
+	sort -nr
