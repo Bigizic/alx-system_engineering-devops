@@ -6,7 +6,8 @@
 
 
 
-/** infinite_while - infinite while loop
+/**
+ * infinite_while - infinite while loop
  *
  * Return: void
  */
@@ -27,7 +28,7 @@ int infinite_while(void)
  * Return: 0 if success
  */
 
-int main()
+int main(void)
 {
 	pid_t child_pid;
 	int count;
