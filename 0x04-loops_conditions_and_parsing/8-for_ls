@@ -4,9 +4,8 @@
 # In a list format
 # Where only the part of the name after the first dash is displayed
 
-l=$(ls)
-for file in $l; do
-	if [ -f "$file" ]; then
+for file in *; do
+	if [[ -f "$file" || -d "$file" ]]; then
 		if [[ "$file" == *-* ]]; then
 			new_files=${file#*-}
 			echo "$new_files"
