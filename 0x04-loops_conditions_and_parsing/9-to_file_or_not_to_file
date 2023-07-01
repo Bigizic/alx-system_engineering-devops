@@ -16,37 +16,36 @@ func_file_information() {
 	regular=false
 
 	for files in *; do
-		if [[ $files == $file_name ]]; then
+		if [[ $files == "$file_name" && -d "$file_name" ]]; then
+			regular=false
 			existing=true
-			if [ $(wc -c < "$file_name") -gt 0 ]; then
+			empty=false
+		fi
+		if [[ $files == "$file_name" && -f "$file_name" ]]; then
+			existing=true
+			regular=true
+			if [[ $(wc -c < "$file_name") -gt 0 ]]; then
 				empty=false
-				if [ -f "$file_name" ]; then
-					regular=true
-				fi
 			fi
 		fi
 
 	done
 
 	if [[ $existing == true ]]; then
-		echo "school file exists"
-		
+		echo "$file_name file exists"
 		if [[ $empty == false ]]; then
-			echo "school file is not empty"
-			regular=false
-			if test -d "$file_name"; then
-				regular=true
-			fi
-		
+			echo "$file_name file is not empty"
+
 		else
-			echo "school file is empty"
+			echo "$file_name file is empty"
 		fi
 
-		if [[ $regular == false ]]; then
-			echo "$file_name is a regular file"
-		fi
 	else
-		echo "school file does not exists"
+		echo "$file_name file does not exists"
+	fi
+
+	if [[ $regular == true ]]; then
+		echo "$file_name is a regular file"
 	fi
 }
 
