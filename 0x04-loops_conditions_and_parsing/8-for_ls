@@ -3,12 +3,9 @@
 # The content of the current directory
 # In a list format
 # Where only the part of the name after the first dash is displayed
-
 for file in *; do
-	if [[ -f "$file" || -d "$file" ]]; then
-		if [[ "$file" == *-* ]]; then
-			new_files=${file#*-}
-			echo "$new_files"
-		fi
+	if [[ -f "$file" || -d "$file" ]] && [[ "$file" == *-* ]]; then
+		new_files=${file#*-}
+		echo "$new_files"
 	fi
 done
