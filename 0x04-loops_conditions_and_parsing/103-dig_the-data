@@ -3,10 +3,12 @@
 # occurence of an ip address
 
 file_path="./apache-access.log"
-ip=$(awk '{print $1}' "$file_path")
-http=$(awk '{print $9}' "$file_path")
+if [[ -s $file_path ]]; then
+	ip=$(awk '{print $1}' "$file_path")
+	http=$(awk '{print $9}' "$file_path")
 
-paste -d ' ' <(echo "$ip") <(echo "$http") |
-	sort |
-	uniq -c |
-	sort -nr
+	paste -d ' ' <(echo "$ip") <(echo "$http") |
+		sort |
+		uniq -c |
+		sort -nr
+fi
