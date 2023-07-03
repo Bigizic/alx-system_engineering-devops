@@ -3,7 +3,9 @@
 # apache-access log file without using while loops, for, until and cut
 
 file_path="./apache-access.log"
-ip=$(awk '{print $1}' "$file_path")
-http=$(awk '{print $9}' "$file_path")
-
-paste -d ' ' <(echo "$ip") <(echo "$http")
+if [ -s $file_path ]; then
+	ip=$(awk '{print $1}' "$file_path")
+	http=$(awk '{print $9}' "$file_path")
+	
+	paste -d " "<(echo "$ip") <(echo "$http")
+fi
