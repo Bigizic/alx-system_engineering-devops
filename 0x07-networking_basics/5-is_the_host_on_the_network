@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+arg=$1
+total_arg=$#
+
+if [ $total_arg == 1 ]; then
+	ping -c 5 $arg
+else
+	echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+fi
