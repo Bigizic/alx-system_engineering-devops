@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# a bash script that list all ipv4 sddress
+
+ip -4 addr show
