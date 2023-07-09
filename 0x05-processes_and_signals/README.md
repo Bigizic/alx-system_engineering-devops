@@ -86,6 +86,7 @@ Requirements:
 	You cannot use pgrep
 	The third line of your script must be # shellcheck disable=SC2009 (for more info about ignoring shellcheck error here)
 
+Terminal:
 
 	sylvain@ubuntu$ sylvain@ubuntu$ ./2-show_your_bash_pid
 	sylvain   4404  0.0  0.7  21432  4000 pts/0    Ss   03:32   0:00          \_ -bash
