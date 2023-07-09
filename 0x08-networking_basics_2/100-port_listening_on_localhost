@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# a Bash script that listens on port 98 on localhost
+# can be used for debugging socket connection issues
+
+po_rt=98
+
+nc -l -p "$po_rt"
