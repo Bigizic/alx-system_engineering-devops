@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-# a bash script that list all ipv4 sddress
+# a bash script that list all ipv4 sddress using grep, ip, addr and cut
 
 ip addr | grep 'inet ' | cut -d' ' -f6 | cut -d '/' -f1
