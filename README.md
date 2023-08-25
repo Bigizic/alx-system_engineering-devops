@@ -1,1 +1,1 @@
-Write a script that prints the absolute path name of the current working directory.
+This repo contains my journey in system and development operations.
