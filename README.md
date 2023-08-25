@@ -1,1 +1,1 @@
-This repo contains my journey in system and development operations
+This repo contains my journey in system and development operations.
