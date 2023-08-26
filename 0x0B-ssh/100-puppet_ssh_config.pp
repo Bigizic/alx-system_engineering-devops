@@ -3,5 +3,5 @@
 Host 54.82.132.33
 HostName 54.82.132.33
 User ubuntu
-IdentifyFile ~/.ssh/school
+IdentityFile ~/.ssh/school
 PasswordAuthentication no
