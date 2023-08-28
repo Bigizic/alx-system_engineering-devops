@@ -10,6 +10,7 @@
 | What are the main HTTP requests | Get, Post, Put, Delete, Patch, Head, Options |
 
 | Main http requests | uses |
+| ---- | ---- |
 | Get | This request is used to retrieve data from the server. When a client sends a get request it asks the web server to send back the resource the client requested for |
 | Post | This requests are used to send data to the server, e.g to submit a form on a website. Just like filling some input fields|
 | Put | This requests are used to update or create a resource on the server on a specific url. Just like putting something on the server, e.g imagine a user updating their profile on a website they send the updated data or save the updated data, this is them sending a put request to the server to update or create a resource already on the server |
