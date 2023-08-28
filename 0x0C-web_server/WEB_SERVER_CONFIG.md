@@ -134,8 +134,7 @@ To avoid a possible hash bucket memory problem that can arise from adding additi
 
 Find the server_names_hash_bucket_size directive and remove the # symbol to uncomment the line.
 
-` NOTE:
-
+`NOTE:
 Commenting out lines of code – usually by putting # at the start of a line – is another way of disabling them without needing to actually delete them.`
 
 	...
