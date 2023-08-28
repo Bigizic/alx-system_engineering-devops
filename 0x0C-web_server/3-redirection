@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-# install ngix on my web-01 server
-# ngix should listen on port 80
-# ngix returns a page that contains the string "Hello world!"
-# configure nginx to serve the created HTMl page at the root
+# a script that configure my Nginx server so that /redirect_me is redirecting to another page
 
 sudo apt-get -y update
-sudo apt-get install nginx -y
+# sudo apt-get install nginx -y
 sudo ufw allow 'Nginx HTTP'
 
 echo "Hello World!" | sudo tee /var/www/html/some_page.html
@@ -16,13 +13,17 @@ echo "Hello World!" | sudo tee /var/www/html/some_page.html
 sudo rm /etc/nginx/sites-enabled/default
 sudo tee /etc/nginx/sites-available/some_page <<EOF
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	server_name _;
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
 
-	location / {
-		root /var/www/html;
-		index some_page.html;
+        location / {
+                root /var/www/html;
+                index some_page.html;
+        }
+
+	if (\$request_filename ~ redirect_me){
+		return 301 http://www.youtube.com/watch?v=QH2-TGUlwu4;
 	}
 }
 EOF

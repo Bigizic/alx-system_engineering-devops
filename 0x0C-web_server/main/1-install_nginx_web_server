@@ -6,9 +6,8 @@
 
 sudo apt-get -y update
 sudo apt-get install nginx -y
-sudo ufw allow 'Nginx HTTP'
 
-echo "Hello World!" | sudo tee /var/www/html/some_page.html
+sudo cp some_page.html /var/www/html/some_page.html
 
 # modify default server block instead of creating new one
 # configure nginx to serve hello world at the root
@@ -16,14 +15,14 @@ echo "Hello World!" | sudo tee /var/www/html/some_page.html
 sudo rm /etc/nginx/sites-enabled/default
 sudo tee /etc/nginx/sites-available/some_page <<EOF
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	server_name _;
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
 
-	location / {
-		root /var/www/html;
-		index some_page.html;
-	}
+        location / {
+                root /var/www/html;
+                index some_page.html;
+        }
 }
 EOF
 
