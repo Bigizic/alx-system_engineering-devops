@@ -11,6 +11,7 @@ echo "Hello World!" | sudo tee /var/www/html/some_page.html
 # configure nginx to serve hello world at the root
 
 sudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-enabled/some_page
 sudo tee /etc/nginx/sites-available/some_page <<EOF
 server {
         listen 80 default_server;
