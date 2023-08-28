@@ -112,3 +112,11 @@ Requirements:
 To list a domain ip address use:
 
 	nslookup -q=A {domain_name.com}
+
+To send files through scp you need to send your public key to the receiver server use this comand to copy your public key and send to the receiver server
+
+	ssh-copy-id -i {path to your public_key} {username of receiver server}@{recever_server_ip}
+
+This command allows your public key to be stored as authorised keys in the receiver end
+
+or manually send your public address to the receiver have them save your public key in their authorised key file
