@@ -1,0 +1,40 @@
+#!/usr/bin/bash
+# a scrip that installs nginx and configures a custom 404 page that
+# contains a string
+
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install nginx -y
+sudo service nginx start
+
+echo "Hello World!" | sudo tee /var/www/html/some_page.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+sudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-enabled/some_page
+sudo tee /etc/nginx/sites-available/some_page <<EOF
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
+
+        location / {
+                root /var/www/html;
+                index some_page.html;
+        }
+
+	if (\$request_filename ~ redirect_me){
+		return 301 http://www.youtube.com/watch?v=QH2-TGUlwu4;
+	}
+
+	error_page 404 /404.html;
+	location = /404.html {
+		root /var/www/html;
+		internal;
+	}
+}
+EOF
+
+sudo ln -s /etc/nginx/sites-available/some_page /etc/nginx/sites-enabled/
+
+sudo service nginx restart
