@@ -1,13 +1,11 @@
 #!/usr/bin/bash
 # a scrip that installs nginx and configures a custom 404 page that
-# contains a string
+# contains a string using sed
 
 sudo apt update -y
-sudo apt upgrade -y
-sudo apt install nginx -y
+sudo apt -y install nginx -y
 sudo service nginx start
 
-echo "Hello World!" | sudo tee /var/www/html/some_page.html
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
 sudo rm /etc/nginx/sites-enabled/default
@@ -23,10 +21,6 @@ server {
                 index some_page.html;
         }
 
-	if (\$request_filename ~ redirect_me){
-		return 301 http://www.youtube.com/watch?v=QH2-TGUlwu4;
-	}
-
 	error_page 404 /404.html;
 	location = /404.html {
 		root /var/www/html;
@@ -34,6 +28,10 @@ server {
 	}
 }
 EOF
+
+sudo sed -i 's/error_page 404 \/404.html;/error_page 404 \/404.html;\n        error_page 404 \/404_custom.html;/g' /etc/nginx/sites-available/some_page
+
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404_custom.html
 
 sudo ln -s /etc/nginx/sites-available/some_page /etc/nginx/sites-enabled/
 
