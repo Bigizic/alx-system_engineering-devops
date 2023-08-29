@@ -69,3 +69,9 @@ To build a docker image:
 	docker build -t {img_name} .
 
 You'd need to be in the directory where the dockerfile is
+
+to reset user password:
+
+	sudo passwd {username}
+
+you'll be prompyted to enter new password as long as you're logged in
