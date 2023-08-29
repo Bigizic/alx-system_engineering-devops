@@ -9,11 +9,15 @@ before testing nigix adjust the firewall software to allow nginx service, nginx 
 
 To view list of application configured that ufw knows how to work with enter:
 
-	sudo uftw app list
+	sudo ufw app list
 
 to adjust firewall to allow nginx `http` `https` or `nginx full` service
 
 	sudo ufw allow 'Nginx HTTPS'
+
+to adjust firewall to disallow nginx `http` `https` or `nginx full` service
+
+	sudo ufw deny 'Nginx HTTP'
 
 to verify status enter:
 
