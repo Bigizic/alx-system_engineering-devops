@@ -3,13 +3,12 @@
 # contains a string using sed
 
 sudo apt update -y
-sudo apt -y install nginx -y
+sudo apt upgrade -y
+sudo apt -y install nginx
 sudo service nginx start
 
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
-sudo rm /etc/nginx/sites-enabled/default
-sudo rm /etc/nginx/sites-enabled/some_page
 some_text='server_name _;\n\n\trewrite \^\/redirect_me https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent;/'
 sudo sed -i "s/server_name _;\$/${some_text}" /etc/nginx/sites-available/default
 sudo sed -i "s/^\t\}$/\t\}\n\n\terror_page 404 \/404.html;/" /etc/nginx/sites-available/default
