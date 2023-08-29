@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-# a bash script that copies Hello Holberton to /tmp/
+# a bash script that fixes the web aserver
 
-cp 
+sudo service apache2 restart
