@@ -1,37 +1,27 @@
 # a puppet manifest that installs nginx on a new server and
 # configures a custom HTTP header response
 
-# update command
-exec { 'update':
-command => '/usr/bin/apt-get update',
+
+exec {'update':
+  provider => shell,
+  command  => 'sudo apt-get -y update',
+  before   => Exec['install Nginx'],
 }
 
-# Ensure the Nginx package is present
-package { 'nginx':
-ensure  => 'present',
-name    => 'nginx',
-require => Exec['update'],
+exec {'install Nginx':
+  provider => shell,
+  command  => 'sudo apt-get -y install nginx',
+  before   => Exec['add_header'],
 }
 
-# Create the some_page.html file with custom content
-file { '/var/www/html/some_page.html':
-ensure  => present,
-path    => '/var/www/html/some_page.html',
-content => 'Hello World!',
-require => Package['nginx'],
+exec { 'add_header':
+  provider    => shell,
+  environment => ["HOST=${hostname}"],
+  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
+  before      => Exec['restart Nginx'],
 }
 
-# Add a custom HTTP header response
-file { '/etc/nginx/sites-available/default':
-ensure  => present,
-
-after   => 'listen 80 default_server;',
-line    => 'add_header X-Served-By $hostname;',
-require => Package['nginx'],
-}
-
-# ensure nginx is running
-service { 'nginx':
-ensure  => running,
-require => Package['nginx'],
+exec { 'restart Nginx':
+  provider => shell,
+  command  => 'sudo service nginx restart',
 }
