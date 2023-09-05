@@ -6,6 +6,8 @@
 sudo apt update # get updates
 sudo apt-get install haproxy -y # install haproxy
 
+echo "ENABLED=1" >> /etc/default/haproxy
+
 # create configuration file for HAproxy
 
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
@@ -28,4 +30,4 @@ EOF
 sudo systemctl enable haproxy
 
 # Start HAproxy service
-sudo systemctl start haproxy
+sudo service haproxy start
