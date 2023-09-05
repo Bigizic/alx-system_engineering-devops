@@ -14,7 +14,7 @@ sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
 # HAproxy configuration
 
 # Frontend configuration
-# frontend http
+frontend http
 	bind *:80
 	mode http
 	default_backend backend_servers_05_09_2023
