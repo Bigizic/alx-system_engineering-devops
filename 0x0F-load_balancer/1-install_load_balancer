@@ -14,26 +14,8 @@ echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
 
 # create configuration file for HAproxy
-sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
+echo -e "\nfrontend http\n\tbind *:80\n\tmode http\n\tdefault_backend web-backend\n\nbackend web-backend\n\tbalance roundrobin\n\tserver 297651-web-01 54.82.132.33:80 check\n\tserver 297651-web-02 54.197.206.10:80 check" >> /etc/haproxy/haproxy.cfg
 
-defaults
-	mode http
-	timeout client 10s
-	timeout connect 50s
-	timeout server 10s 
-	timeout http-request 10s
-
-backend backend_servers
-	bind *:80
-	mode http
-	status enabled
-	stats uri /haproxy?stats
-	balance roundrobin
-	option httpchk HEAD / HTTP/1.1\r\nHost: localhost
-
-	server 297651-web-01 54.82.132.33:80 check
-	server 297651-web-02 54.197.206.10:80 check
-EOF
 
 # enable HAproxy as a service
 sudo systemctl enable haproxy
