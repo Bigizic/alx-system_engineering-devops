@@ -3,8 +3,10 @@
 # serve two web servers and distrubute requests using the default
 # round robin algorithm
 
+apt-get -y install software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-2.0
 sudo apt update # get updates
-sudo apt-get install haproxy -y # install haproxy
+sudo apt-get -y install haproxy # install haproxy
 
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
