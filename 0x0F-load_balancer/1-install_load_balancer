@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# a bash script that installs HAproxy on a load balancer server to
+# serve two web servers and distrubute requests using the default
+# round robin algorithm
+
+sudo apt update # get updates
+sudo apt-get install haproxy -y # install haproxy
+
+# create configuration file for HAproxy
+
+sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
+# HAproxy configuration
+
+# Frontend configuration
+# frontend http
+	bind *:80
+	mode http
+	default_backend backend_servers_05_09_2023
+
+# Backend Configuration
+backend backend_servers_05_09_2023
+	balance roundrobin
+	server web-01 54.82.132.33:80 check
+	server web-02 54.197.206.10:80 check
+EOF
+
+# enable HAproxy as a service
+sudo systemctl enable haproxy
+
+# Start HAproxy service
+sudo systemctl start haproxy
