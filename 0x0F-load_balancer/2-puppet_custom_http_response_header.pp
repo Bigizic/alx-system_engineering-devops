@@ -1,10 +1,16 @@
 # a puppet manifest that installs nginx on a new server and
 # configures a custom HTTP header response
 
+# update command
+exec { 'update':
+command => '/usr/bin/apt-get update',
+}
+
 # Ensure the Nginx package is present
 package { 'nginx':
-ensure => present,
-name   => 'nginx',
+ensure  => 'present',
+name    => 'nginx',
+require => Exec['update'],
 }
 
 # Create the some_page.html file with custom content
