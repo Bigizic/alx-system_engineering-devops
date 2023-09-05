@@ -12,11 +12,20 @@ file { '/var/www/html/some_page.html':
 ensure  => present,
 path    => '/var/www/html/some_page.html',
 content => 'Hello World!',
+require => Package['nginx'],
 }
 
 # Add a custom HTTP header response
 file { '/etc/nginx/sites-available/default':
-ensure => present,
-after  => 'listen 80 default_server;',
-line   => 'add_header X-Served-By $hostname;',
+ensure  => present,
+
+after   => 'listen 80 default_server;',
+line    => 'add_header X-Served-By $hostname;',
+require => Package['nginx'],
+}
+
+# ensure nginx is running
+service { 'nginx':
+ensure  => running,
+require => Package['nginx'],
 }

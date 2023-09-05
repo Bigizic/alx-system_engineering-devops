@@ -8,20 +8,27 @@ sudo apt-get install haproxy -y # install haproxy
 
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
+# backup the existing config file
+sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+
 # create configuration file for HAproxy
-
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
-# HAproxy configuration
 
-# Frontend configuration
-frontend http
+defaults
+	mode http
+	timeout client 10s
+	timeout connect 50s
+	timeout server 10s 
+	timeout http-request 10s
+
+backend backend_servers
 	bind *:80
 	mode http
-	default_backend backend_servers_05_09_2023
-
-# Backend Configuration
-backend backend_servers_05_09_2023
+	status enabled
+	stats uri /haproxy?stats
 	balance roundrobin
+	option httpchk HEAD / HTTP/1.1\r\nHost: localhost
+
 	server 297651-web-01 54.82.132.33:80 check
 	server 297651-web-02 54.197.206.10:80 check
 EOF
@@ -30,4 +37,4 @@ EOF
 sudo systemctl enable haproxy
 
 # Start HAproxy service
-sudo service haproxy start
+sudo systemctl start haproxy
