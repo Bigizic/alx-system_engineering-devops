@@ -22,8 +22,8 @@ frontend http
 # Backend Configuration
 backend backend_servers_05_09_2023
 	balance roundrobin
-	server web-01 54.82.132.33:80 check
-	server web-02 54.197.206.10:80 check
+	server 297651-web-01 54.82.132.33:80 check
+	server 297651-web-02 54.197.206.10:80 check
 EOF
 
 # enable HAproxy as a service
