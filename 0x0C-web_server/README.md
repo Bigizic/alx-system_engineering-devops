@@ -1,7 +1,7 @@
 # 0x0C. Web server
 
 ## READ ALSO:
-<a href="https://github.com/Bigizic/alx-system_engineering-devops/blob/e77bd845bda40fa03945478f32820cb7f94513d7/0x0C-web_server/WEB_SERVER_CONFIG.md">WEB_SERVER_CONFIG</a>
+<a href="https://github.com/Bigizic/alx-system_engineering-devops/blob/master/0x0C-web_server/WEB_SERVER_CONFIG.md">WEB_SERVER_CONFIG</a>
 
 ## General:
 
