@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # a bash script that allows curl to listen to port 80 without nginx
-
-sudo ufw allow 'Nginx HTTP'
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx start
 kill "$(pgrep 'nginx' | head -1)"
