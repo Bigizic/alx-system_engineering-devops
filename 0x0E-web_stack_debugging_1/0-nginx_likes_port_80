@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # bash script that starts nginx
 
-sudo apt-get -y update
-sudo apt-get install nginx -y
 sudo ufw allow 'Nginx HTTP'
-sudo sed -i '/listen [::]:80 default_server;/c\    listen 80;' /etc/nginx/sites-enabled/default
-sudo systemctl restart nginx
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
