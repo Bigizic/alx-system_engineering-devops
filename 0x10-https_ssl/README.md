@@ -23,15 +23,23 @@ Configure HAproxy to automatically redirect HTTP traffic to HTTPS.
 
 # How to install certbot and get a ssl certificate
 - [X] STEP 1:
+
+
 	sudo apt update
+
 	sudo apt install certbot
+
 
 - [X] STEP 2:
 
+
 	sudo systemctl stop nginx
+
 	sudo service haproxy stop
 
+
 - [X] STEP 3: Get a certificate
+
 
 	sudo certbot certonly --standalone -d {domain name}
 
