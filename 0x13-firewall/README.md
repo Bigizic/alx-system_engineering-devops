@@ -1,8 +1,9 @@
 # Firewall
+## READ ALSO
 
 * ``What is a firewall``: A firewall is a hardware or software security system used by web servers
 
-  or app servers to monitor,filter incoming and outgoing http traffic.
+  or app servers to monitor, filter incoming and outgoing http traffic.
 
 ## Be very careful with firewall rules! For instance, if you ever deny port 22/TCP and log out of your server, you will not be able to reconnect to your server via SSH, and we will not be able to recover it. When you install UFW, port 22 is blocked by default, so you should unblock it immediately before logging out of your server.
 
@@ -20,3 +21,6 @@ Requirements:
 - [X] Configure {server name} so that its firewall redirects port 8080/TCP to port 80/TCP.
 
 - [X] Your answer file should be a copy of the ufw configuration file that you modified to make this happen
+
+Terminal on {first web server}:
+
