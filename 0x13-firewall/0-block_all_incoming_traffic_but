@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+# installs ufw firewall and setup few rules
 
 sudo apt update
 sudo apt install ufw
