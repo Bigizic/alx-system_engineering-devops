@@ -24,3 +24,8 @@ check available version
 Now install mysql 5.7
 
 	sudo apt install -f mysql-client=5.7* mysql-community-server=5.7* mysql-server=5.7*
+
+
+## READ
+* <a href="https://www.digitalocean.com/community/tutorials/how-to-choose-a-redundancy-plan-to-ensure-high-availability#sql-replication"> SQL REPLICATION </a>
+* <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-replication-in-mysql"> How To Set Up Replication in MySQL</a>
