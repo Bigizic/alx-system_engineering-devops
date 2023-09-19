@@ -4,8 +4,11 @@
 nginx_conf="/etc/nginx/nginx.conf"
 
 # create nginx user
+sudo adduser --system --no-create-home --disabled-login --group nginx
+
+
 pkill apache2
-chown nginx:nginx $"nginx_conf"
+chown nginx:nginx $nginx_conf
 chmod 777 /etc/nginx/nginx.conf
 # set port 8080 listening port if not listening to port 8080
 sed -i 's/80/8080/g' /etc/nginx/sites-available/default
