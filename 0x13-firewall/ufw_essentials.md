@@ -16,7 +16,7 @@ to use ufw you have to be a super user
  		*nat
   		:PREROUTING ACCEPT [0:0]
    		-A PREROUTING -p tcp --dport {port packet to forwad} -j REDIRECT --to-port {port where it being/should forwarded/forward to}
-    		COMMIT
+  		COMMIT
 
 * enable ufw
 * reload ufw
