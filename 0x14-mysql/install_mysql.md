@@ -1,0 +1,26 @@
+* Note
+
+* The following public GPG build key is for MySQL 5.7.37 packages and higher. For the public GPG build key for earlier MySQL release packages (keyID 5072E1F5), see Section 2.1.4.5, “GPG Public Build Key for Archived Packages”.
+
+`copy public key`
+<a href="https://dev.mysql.com/doc/refman/5.7/en/checking-gpg-signature.html"> Here </a>
+
+Save it in a file in home dir
+
+	sudo apt-key add {path to key}
+
+add the apt repo
+
+	sudo sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu bionic mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
+
+update apt
+
+	sudo apt-get update
+
+check available version
+
+	sudo apt-cache policy mysql-server
+
+Now install mysql 5.7
+
+	sudo apt install -f mysql-client=5.7* mysql-community-server=5.7* mysql-server=5.7*
