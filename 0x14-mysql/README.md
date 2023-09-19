@@ -1,6 +1,6 @@
 # MySQL
 
-## Install MySQL on both servers READ <a target="_blank" href="./install_mysql.md"> ALSO </a>
+## Install MySQL on both servers READ <a target="blank" href="./install_mysql.md"> ALSO </a>
 * MySQL distribution must be 5.7.x
 
 ## Create a MySQL user on both server 
