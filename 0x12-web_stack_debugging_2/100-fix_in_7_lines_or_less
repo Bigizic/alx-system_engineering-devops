@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
+# bash script like 1-run_nginx_as_nginx but on 7 lines
 sudo adduser --system --no-create-home --disabled-login --group nginx
-pkill apache2
 chown nginx:nginx /etc/nginx/nginx.conf
 chmod 777 /etc/nginx/nginx.conf
 sed -i 's/80/8080/g' /etc/nginx/sites-available/default
