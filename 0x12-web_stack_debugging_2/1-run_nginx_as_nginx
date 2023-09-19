@@ -4,13 +4,9 @@
 nginx_conf="/etc/nginx/nginx.conf"
 
 # create nginx user
-nginx_user=$(grep -E "^user\s+nginx;" "$nginx_conf" | awk '{print $2}' | tr -d ';')
-if [ "$nginx_user" != "nginx" ]; then
-	sed -i 's/^user .*/user nginx;/' "$nginx_conf"
-fi
-
+pkill apache2
+chown nginx:nginx $"nginx_conf"
+chmod 777 /etc/nginx/nginx.conf
 # set port 8080 listening port if not listening to port 8080
-if ! grep -E "^listen\s+\*:8080;" "$nginx_conf" &>/dev/null; then
-	sed -i '/^listen .*/ a \    listen *:8080;' "$nginx_conf"
-fi
-sudo -u nginx systemctl restart nginx
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+sudo -u nginx service nginx start
