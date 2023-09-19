@@ -4,6 +4,32 @@ Uncomplicated firewall is a firewall configuration tool that runs on top of ipta
 
 to use ufw you have to be a super user
 
+# MUST READ
+
+## HOW TO SETUP UP UFW PORT FORWARDING
+
+* Disable ufw if enabled
+* Allow port that u want to forward to
+* Edit file `/etc/ufw/before.rules` add this line to it before the *filter:
+
+	# Port fowarding from 8080 to 80
+	*nat
+	:PREROUTING ACCEPT [0:0]
+	-A PREROUTING -p tcp --dport {port packet to forwad} -j REDIRECT --to-port {port where it being/should forwarded/forward to}
+	COMMIT
+
+* enable ufw
+* reload ufw
+* Then check with nmap if the ports are opened:
+
+	nmap -F {ip address} or {domain name}
+
+* If not open troubleshoot it.. Usually nginx config, try
+  restarting nginx, fix nginx config file at
+  /etc/nginx/sites-enabled/default. check for listening ports
+  and fix or try listening listening ports with grep
+  `grep listen /etc/nginx/sites-enabled/default`
+
 | UFW commands | USES |
 | ---- | ---- |
 | sudo ufw status | to check if ufw is enabled |
