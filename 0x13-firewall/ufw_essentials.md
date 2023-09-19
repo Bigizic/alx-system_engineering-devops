@@ -12,23 +12,23 @@ to use ufw you have to be a super user
 * Allow port that u want to forward to
 * Edit file `/etc/ufw/before.rules` add this line to it before the *filter:
 
-	# Port fowarding from 8080 to 80
-	*nat
-	:PREROUTING ACCEPT [0:0]
-	-A PREROUTING -p tcp --dport {port packet to forwad} -j REDIRECT --to-port {port where it being/should forwarded/forward to}
-	COMMIT
+		#Port fowarding from 8080 to 80
+ 		*nat
+  		:PREROUTING ACCEPT [0:0]
+   		-A PREROUTING -p tcp --dport {port packet to forwad} -j REDIRECT --to-port {port where it being/should forwarded/forward to}
+    		COMMIT
 
 * enable ufw
 * reload ufw
 * Then check with nmap if the ports are opened:
 
-	nmap -F {ip address} or {domain name}
 
-* If not open troubleshoot it.. Usually nginx config, try
-  restarting nginx, fix nginx config file at
-  /etc/nginx/sites-enabled/default. check for listening ports
-  and fix or try listening listening ports with grep
-  `grep listen /etc/nginx/sites-enabled/default`
+		nmap -F {ip address} or {domain name}
+
+* If not open troubleshoot it.. Usually nginx config, try restarting nginx,
+  * fix nginx config file at `/etc/nginx/sites-enabled/default`. check for listening ports and fix
+  * or try `grep listen /etc/nginx/sites-enabled/default` to see the ports nginx is listening to
+
 
 | UFW commands | USES |
 | ---- | ---- |
