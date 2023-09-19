@@ -7,4 +7,5 @@ CREATE TABLE IF NOT EXISTS nexus6 (
 	id INTEGER,
 	name VARCHAR(255)
 );
-INSERT INTO nexus6 (id, name) VALUES (1, 'Joe Mama');
+INSERT INTO nexus6 (id, name) VALUES (1, "Joe Mama");
+GRANT SELECT ON tyrell_corp.nexus6 TO 'holberton_user'@'localhost';
