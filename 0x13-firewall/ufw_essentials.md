@@ -25,7 +25,7 @@ to use ufw you have to be a super user
 
 		nmap -F {ip address} or {domain name}
 
-* If not open troubleshoot it.. Usually nginx config, try restarting nginx,
+* If desired ports are closed troubleshoot it.. Usually nginx config, try restarting nginx,
   * fix nginx config file at `/etc/nginx/sites-enabled/default`. check for listening ports and fix
   * or try `grep listen /etc/nginx/sites-enabled/default` to see the ports nginx is listening to
 
