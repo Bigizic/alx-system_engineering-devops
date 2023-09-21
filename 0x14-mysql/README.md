@@ -29,6 +29,53 @@ Having a replica member on for your MySQL database has 2 advantages:
 * Redundancy: If you lose one of the database servers, you will still have another working one and a copy of your data
 * Load distribution: You can split the read operations between the 2 servers, reducing the load on the primary member and improving query response speed
 
+MASTER TERMINAL/PRIMARY:
+
+    isaac@web-01:~$ mysql -uholberton_user -p
+    Enter password:
+    Welcome to the MySQL monitor.  Commands end with ; or \g.
+    Your MySQL connection id is 4
+    Server version: 5.7.42-log MySQL Community Server (GPL)
+    
+    Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+    
+    Oracle is a registered trademark of Oracle Corporation and/or its
+    affiliates. Other names may be trademarks of their respective
+    owners.
+    
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+    
+    mysql> show master status\G
+    *************************** 1. row ***************************
+             File: mysql-bin.000006
+         Position: 154
+     Binlog_Do_DB: tyrell_corp
+     Binlog_Ignore_DB: mysql
+    Executed_Gtid_Set:
+    1 row in set (0.00 sec)
+
+    mysql> quit
+    Bye
+
+
+TERMINAL TWO/SLAVE:
+
+    mysql> SHOW SLAVE STATUS\G;
+    *************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: 100.26.155.102
+                  Master_User: replica_user
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000006
+          Read_Master_Log_Pos: 154
+               Relay_Log_File: mysql-relay-bin.000002
+                Relay_Log_Pos: 320
+        Relay_Master_Log_File: mysql-bin.000006
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+
+
 ## MySQL backup:
 
 ### 5-mysql_backup:
