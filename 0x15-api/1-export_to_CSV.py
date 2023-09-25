@@ -3,9 +3,9 @@
 """
 
 
+import csv
 import requests
 from sys import argv
-import csv
 
 
 def employee_data_csv_converter():
