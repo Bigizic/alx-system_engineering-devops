@@ -9,8 +9,6 @@ import csv
 
 
 def employee_data_csv_converter():
-    """Proceeds to parse the Restapi and creates a csv file from it
-    """
     try:
         emp_id = int(argv[1])
         data = []
