@@ -1,9 +1,5 @@
 #!/usr/bin/python3
 """A python module that query the reddit api recursively
-
-Return:
-    a list containing titles of all hot articles
-    otherwise None for invalid subreddit
 """
 
 
