@@ -24,25 +24,24 @@ def count_words(subreddit, word_list, hot_list=[], num=0, it=0):
                     title = item[num].get("data").get("title")
                     if title not in hot_list:
                         hot_list.append(title.lower())
-                    return count_words(subreddit, word_list, hot_list, num + 1, it)
+                    return count_words(subreddit, word_list,
+                                       hot_list, num + 1, it)
                 else:
                     all_text = ' '.join(hot_list)
                     all_words = all_text.split()
-                    print(all_words)
                     if it < len(word_list):
-                        print("YES")
-                        # sorted(word_list.lower())
-                        # print(word_list)
-                        return 1
-                        """word = word_list[it]
+                        new = sorted(word_list)
+                        word = new[it]
                         count = all_words.count(word)
                         if count:
                             print("{}: {}".format(word, count))
-                            return count_words(subreddit, word_list, hot_list, num, it + 1)
+                            return count_words(subreddit, word_list,
+                                               hot_list, num, it + 1)
                         else:
-                            return count_words(subreddit, word_list, hot_list, num, it + 1)
+                            return count_words(subreddit, word_list,
+                                               hot_list, num, it + 1)
                     else:
-                        exit(1)"""
+                        exit(1)
             else:
                 print(None)
         except Exception:
