@@ -1,48 +1,87 @@
 #!/usr/bin/python3
-"""A python module that queries the Reddit API, parses the
-title of all hot articles, and prints a sorted count of
-given keywords (case-insensitive, delimited by spaces.
-Javascript should count as javascript, but java should not).
-"""
-
-
+'''A module containing functions for working with the Reddit API.
+'''
 import requests
 
 
-def count_words(subreddit, word_list, hot_list=[], num=0, it=0):
-    if subreddit:
-        url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-        headers = {
-            "User-Agent": "Subreddit Articles Viewer"
-        }
-        try:
-            response = requests.get(url, headers=headers)
-            if response.status_code == 200:
-                data = response.json()
-                item = data.get("data").get("children")
-                if num < len(item):
-                    title = item[num].get("data").get("title")
-                    if title not in hot_list:
-                        hot_list.append(title.lower())
-                    return count_words(subreddit, word_list,
-                                       hot_list, num + 1, it)
-                else:
-                    all_text = ' '.join(hot_list)
-                    all_words = all_text.split()
-                    if it < len(word_list):
-                        new = sorted(word_list)
-                        word = new[it]
-                        count = all_words.count(word)
-                        if count:
-                            print("{}: {}".format(word, count))
-                            return count_words(subreddit, word_list,
-                                               hot_list, num, it + 1)
-                        else:
-                            return count_words(subreddit, word_list,
-                                               hot_list, num, it + 1)
-                    else:
-                        exit(1)
-            else:
-                print(None)
-        except Exception:
-            pass
+def sort_histogram(histogram={}):
+    '''Sorts and prints the given histogram.
+    '''
+    histogram = list(filter(lambda kv: kv[1], histogram))
+    histogram_dict = {}
+    for item in histogram:
+        if item[0] in histogram_dict:
+            histogram_dict[item[0]] += item[1]
+        else:
+            histogram_dict[item[0]] = item[1]
+    histogram = list(histogram_dict.items())
+    histogram.sort(
+        key=lambda kv: kv[0],
+        reverse=False
+    )
+    histogram.sort(
+        key=lambda kv: kv[1],
+        reverse=True
+    )
+    res_str = '\n'.join(list(map(
+        lambda kv: '{}: {}'.format(kv[0], kv[1]),
+        histogram
+    )))
+    if res_str:
+        print(res_str)
+
+
+def count_words(subreddit, word_list, histogram=[], n=0, after=None):
+    '''Counts the number of times each word in a given wordlist
+    occurs in a given subreddit.
+    '''
+    api_headers = {
+        'Accept': 'application/json',
+        'User-Agent': ' '.join([
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'AppleWebKit/537.36 (KHTML, like Gecko)',
+            'Chrome/97.0.4692.71',
+            'Safari/537.36',
+            'Edg/97.0.1072.62'
+        ])
+    }
+    sort = 'hot'
+    limit = 30
+    res = requests.get(
+        '{}/r/{}/.json?sort={}&limit={}&count={}&after={}'.format(
+            'https://www.reddit.com',
+            subreddit,
+            sort,
+            limit,
+            n,
+            after if after else ''
+        ),
+        headers=api_headers,
+        allow_redirects=False
+    )
+    if not histogram:
+        word_list = list(map(lambda word: word.lower(), word_list))
+        histogram = list(map(lambda word: (word, 0), word_list))
+    if res.status_code == 200:
+        data = res.json()['data']
+        posts = data['children']
+        titles = list(map(lambda post: post['data']['title'], posts))
+        histogram = list(map(
+            lambda kv: (kv[0], kv[1] + sum(list(map(
+                lambda txt: txt.lower().split().count(kv[0]),
+                titles
+            )))),
+            histogram
+        ))
+        if len(posts) >= limit and data['after']:
+            count_words(
+                subreddit,
+                word_list,
+                histogram,
+                n + len(posts),
+                data['after']
+            )
+        else:
+            sort_histogram(histogram)
+    else:
+        return
