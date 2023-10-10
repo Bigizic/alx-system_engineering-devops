@@ -16,9 +16,9 @@ def recurse(subreddit, hot_list=[], i=0):
         "User-Agent": "Subreddit articles Viewer"
     }
     try:
-        r = requests.get(url, headers=headers)
-        if r.status_code == 200:
-            data = r.json()
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
             item = data.get("data").get("children")
             if i < len(item):
                 title = item[i].get("data").get("title")
@@ -27,8 +27,8 @@ def recurse(subreddit, hot_list=[], i=0):
                 return recurse(subreddit, hot_list, i + 1)
             else:
                 return hot_list
-            # print(title.get("data").get("title"))
+                # print(title.get("data").get("title"))
         else:
             return None
     except Exception:
-        pass
+        return None
