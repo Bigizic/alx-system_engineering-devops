@@ -13,6 +13,7 @@ Hint:
 
 * strace can attach to a current running process
 * You can use tmux to run strace in one window and curl in another one
+
 Requirements:
 
 * Your 0-strace_is_your_friend.pp file must contain Puppet code
