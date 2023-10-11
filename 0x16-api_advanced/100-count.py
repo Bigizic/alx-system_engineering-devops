@@ -1,72 +1,64 @@
 #!/usr/bin/python3
+"""A python module that queries the Reddit API, parses the
+title of all hot articles, and prints a sorted count of
+given keywords (case-insensitive, delimited by spaces.
+Javascript should count as javascript, but java should not).
 """
-Function that queries the Reddit API and prints
-the top ten hot posts of a subreddit
-"""
-import re
+
+
 import requests
-import sys
 
 
-def add_title(dictionary, hot_posts):
-    """ Adds item into a list """
-    if len(hot_posts) == 0:
-        return
+def count_words(subreddit, word_list, hot_list=[], i=0, after=None):
+    if subreddit:
+        reddit_url = "https://www.reddit.com"
+        hot = 'hot'
+        limit = 30
+        url = "{}/r/{}/.json?sort={}&limit={}&count={}&after={}".format(
+                    reddit_url, subreddit, hot, limit, i,
+                    after if after else '')
 
-    title = hot_posts[0]['data']['title'].split()
-    for word in title:
-        for key in dictionary.keys():
-            c = re.compile("^{}$".format(key), re.I)
-            if c.findall(word):
-                dictionary[key] += 1
-    hot_posts.pop(0)
-    add_title(dictionary, hot_posts)
+        headers = {
+            "User-Agent": "Subreddit articles Viewer"
+        }
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        if response.status_code == 200:
+            data = response.json().get("data")
+            item = data.get("children")
+            count = len(item)
+            after = data.get("after")
+            hot_list.extend(list(map(lambda x: x['data']['title'], item)))
+            if after:
+                return count_words(subreddit, word_list, hot_list, i + count, after)
+            else:
+                return printer(hot_list, word_list, word_list)
+        else:
+            return
 
-
-def recurse(subreddit, dictionary, after=None):
-    """ Queries to Reddit API """
-    u_agent = 'Mozilla/5.0'
-    headers = {
-        'User-Agent': u_agent
-    }
-
-    params = {
-        'after': after
-    }
-
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    res = requests.get(url,
-                       headers=headers,
-                       params=params,
-                       allow_redirects=False)
-
-    if res.status_code != 200:
-        return None
-
-    dic = res.json()
-    hot_posts = dic['data']['children']
-    add_title(dictionary, hot_posts)
-    after = dic['data']['after']
-    if not after:
-        return
-    recurse(subreddit, dictionary, after=after)
-
-
-def count_words(subreddit, word_list):
-    """ Init function """
-    dictionary = {}
-
-    for word in word_list:
-        dictionary[word] = 0
-
-    recurse(subreddit, dictionary)
-
-    l = sorted(dictionary.items(), key=lambda kv: kv[1])
-    l.reverse()
-
-    if len(l) != 0:
-        for item in l:
-            if item[1] is not 0:
-                print("{}: {}".format(item[0], item[1]))
+def printer(hot_list, word_list, take, it=0, printed=[]):
+    all_text = ' '.join(hot_list)
+    all_words = all_text.lower().split()
+    if it < len(word_list):
+        word = word_list[0]
+        temp = all_words.count(word)
+        if temp and word not in printed:
+            printed.append({word: temp})
+            word_list.pop(0)
+            # print("{}: {}".format(word, temp))
+            return printer(hot_list, word_list, take, it + 1, printed)
+        else:
+            return printer(hot_list, word_list, take, it + 1, printed)
     else:
-        print("")
+        sorted_printed = sorted(printed, key=lambda item: (-list(item.values())[0], list(item.keys())[0]))
+        return output(sorted_printed, take)
+
+def output(printed, word_list, left=0):
+    i = len(word_list)
+    print(printed)
+    return
+
+    if left < i:
+        word = list(printed[left].keys())[0]
+        count = list(printed[left].values())[0]
+        print(f"{word}: {count}")
+        return output(printed, word_list, left + 1)
