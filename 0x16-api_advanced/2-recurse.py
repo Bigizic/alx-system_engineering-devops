@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """A python module that query the reddit api recursively
-
 Return:
     a list containing titles of all hot articles
     otherwise None for invalid subreddit
@@ -10,24 +9,32 @@ Return:
 import requests
 
 
-def recurse(subreddit, hot_list=[], i=0):
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    headers = {
-        "User-Agent": "Subreddit articles Viewer"
-    }
-    try:
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            data = response.json()
-            item = data.get("data").get("children")
-            if i < len(item):
-                title = item[i].get("data").get("title")
-                if title not in hot_list:
-                    hot_list.append(title)
-                return recurse(subreddit, hot_list, i + 1)
+def recurse(subreddit, hot_list=[], i=0, after=None):
+
+    if subreddit:
+        reddit_url = "https://www.reddit.com"
+        hot = 'hot'
+        limit = 30
+        url = "{}/r/{}/.json?sort={}&limit={}&count={}&after={}".format(
+                    reddit_url, subreddit, hot, limit, i,
+                    after if after else '')
+
+        headers = {
+            "User-Agent": "Subreddit articles Viewer"
+        }
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                data = response.json()
+                item = data["data"]["children"]
+                count = len(item)
+                after = data["data"]["after"]
+                hot_list.extend(list(map(lambda x: x['data']['title'], item)))
+                if count >= limit and data["data"]["after"]:
+                    return recurse(subreddit, hot_list, i + count, after)
+                else:
+                    return hot_list
             else:
-                return hot_list
-        else:
+                return None
+        except Exception:
             return None
-    except Exception:
-        return None
