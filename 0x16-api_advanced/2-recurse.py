@@ -25,17 +25,16 @@ def recurse(subreddit, hot_list=[], i=0, after=None):
         headers = {
             "User-Agent": "Subreddit articles Viewer"
         }
-        try:
-            response = requests.get(url, headers=headers)
-            if response.status_code == 200:
-                data = response.json()
-                item = data["data"]["children"]
-                count = len(item)
-                after = data["data"]["after"]
-                hot_list.extend(list(map(lambda x: x['data']['title'], item)))
-                if count >= limit and data["data"]["after"]:
-                    return recurse(subreddit, hot_list, i + count, after)
-                else:
-                    return hot_list if hot_list else None
-        except Exception:
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        if response.status_code == 200:
+            data = response.json()
+            item = data["data"]["children"]
+            count = len(item)
+            after = data["data"]["after"]
+            hot_list.extend(list(map(lambda x: x['data']['title'], item)))
+            if after:
+                return recurse(subreddit, hot_list, i + count, after)
+            else:
+                return hot_list if hot_list else None
+        else:
             return None
