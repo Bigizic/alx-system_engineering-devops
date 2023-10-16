@@ -40,7 +40,6 @@ server {
         # Nginx listens on the route /airbnb-onepage/ on services running port 5000
         location /airbnb-onepage/ {
                 proxy_pass http://localhost:5000;
-                proxy_set_header X-Served-By 297651-web-01;
         }
 
         #
