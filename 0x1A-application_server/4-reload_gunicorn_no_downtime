@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # Gracefully reloads Gunicorn
 
-systemctl status gunicorn.service | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -s -HUP
+systemctl status gunicorn.service | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -HUP
