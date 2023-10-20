@@ -1,5 +1,8 @@
 # Application server
 
+# Use Tmux
+        tmux new-session -d 'gunicorn --bind 0.0.0.0:5000 app.web_ap:app'
+
 
 ## Background Context
 
